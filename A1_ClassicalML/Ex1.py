@@ -14,18 +14,18 @@ wine_data = load_wine()
 X, y = wine_data.data, wine_data.target
 
 # Mostramos variables predictoras y dimensiones
-print("--- Información del Dataset Wine ---")
-print(f"Variables predictoras: {wine_data.feature_names}")
-print(f"Número total de variables: {len(wine_data.feature_names)}")
-print(f"Número de observaciones por clase: {pd.Series(y).value_counts().sort_index().to_dict()}")
+print("--- Wine Dataset Information ---")
+print(f"Prerdictor variables: {wine_data.feature_names}")
+print(f"Total number of variables: {len(wine_data.feature_names)}")
+print(f"Number of observations per class: {pd.Series(y).value_counts().sort_index().to_dict()}")
 # Nota: Las clases 0, 1 y 2 representan diferentes tipos de vinos italianos.
 # Los predictores representan análisis químicos como alcohol, ácido málico, etc.
 
 # --- PASO 2: Definición de modelos y evaluación ---
 # Creamos un diccionario para almacenar los modelos a evaluar
 models = {
-    "SVM Lineal": SVC(kernel='linear'),
-    "SVM RBF": SVC(kernel='rbf'),
+    "Linear SVM": SVC(kernel='linear'),
+    "RBF SVM": SVC(kernel='rbf'),
     "k-NN (k=3)": KNeighborsClassifier(n_neighbors=3),
     "Decision Tree": DecisionTreeClassifier(random_state=42),
     "Random Forest": RandomForestClassifier(random_state=42) # Clasificador adicional
@@ -33,7 +33,7 @@ models = {
 
 results = {}
 
-print("\n--- Resultados de Accuracy (5-fold CV) ---")
+print("\n--- Accuracy Results (5-fold CV) ---")
 for name, model in models.items():
     # El escalador solo 've' los datos de entrenamiento de cada fold
     pipeline = Pipeline([
@@ -55,4 +55,4 @@ for name, model in models.items():
 
 # --- PASO 3: Identificar el ganador ---
 best_model = max(results, key=results.get)
-print(f"\nEl mejor clasificador es: {best_model} con un Accuracy de {results[best_model]:.4f}")
+print(f"\nThe best classifier is {best_model}, with an accuracy of {results[best_model]:.4f}")

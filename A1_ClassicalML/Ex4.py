@@ -14,10 +14,10 @@ try:
     
     # Aseguramos que las etiquetas sean enteros para bincount
     y = y.astype(int)
-    print("--- Carga Exitosa ---")
-    print(f"Distribución original de clases: {np.bincount(y)[1:]} (Clase 1 y Clase 2)")
+    print("--- Successfully loaded file ---")
+    print(f"Original class distribution: {np.bincount(y)[1:]} (Class 1 and Class 2)")
 except Exception as e:
-    print(f"Error al cargar el archivo: {e}")
+    print(f"Error loading the file: {e}")
 
 # --- PASO 2: División de datos (Evitar Data Leakage) ---
 # Stratify asegura que la proporción de clases se mantenga en train y test
@@ -40,13 +40,13 @@ def evaluate_svm(X_tr, y_tr, X_te, y_te, title, balanced=None):
     
     print(f"\n--- {title} ---")
     acc = accuracy_score(y_te, preds)
-    print(f"Accuracy General: {acc:.4f}")
+    print(f"General accuracy: {acc:.4f}")
     # classification_report nos da Precision y Recall por cada clase (1 y 2)
     print(classification_report(y_te, preds))
     return acc
 
 # 1. Evaluación Base
-evaluate_svm(X_train_scaled, y_train, X_test_scaled, y_test, "1. SVM Base (Sin balancear)")
+evaluate_svm(X_train_scaled, y_train, X_test_scaled, y_test, "1. Base SVM (unbalanced)")
 
 # --- PASO 4: Balanceo (Aplicado SOLO al set de entrenamiento) ---
 train_df = pd.DataFrame(X_train_scaled)
@@ -73,4 +73,4 @@ evaluate_svm(up_train.drop('target', axis=1), up_train['target'],
 
 # 4. Class Weight Balanced
 evaluate_svm(X_train_scaled, y_train, X_test_scaled, y_test, 
-             "4. SVM con class_weight='balanced'", balanced='balanced')
+             "4. SVM with class_weight='balanced'", balanced='balanced')
